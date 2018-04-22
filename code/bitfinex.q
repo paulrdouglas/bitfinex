@@ -1,7 +1,7 @@
 // q api for bitfinex crypto exchange
 
 // make generic request functions
-args:`a`url!(0;"https://api.bitfinex.com/v1/"); 
+args:`url`timer`qtyps!("https://api.bitfinex.com/v1/";5000;"FFFFFFFP"); 
 
 addsym:{[sym] enlist[`sym]!enlist sym};
 
@@ -12,12 +12,19 @@ getsyms:{
 
 getquote:{[syms]
   :{[sym]
-    :addsym[sym],.j.k .Q.hg `$args[`url],"pubticker/",string sym;
+          :addsym[sym],args[`qtyps]$.j.k .Q.hg `$args[`url],"pubticker/",string sym;
     }'[syms];
   };
 
 gettrade:{[syms]
   :raze{[sym]
-    :addsym[sym],.j.k .Q.hg `$args[`url],"trades/",string sym;
+    :(count[t]#enlist addsym[sym]),'t:.j.k .Q.hg `$args[`url],"trades/",string sym;
     }'[syms];
   };
+
+
+
+
+// set timer
+\t args`timer
+
