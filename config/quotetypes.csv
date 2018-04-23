@@ -1,0 +1,13 @@
+col,typ
+time,"p"
+sym,"S"
+bid,"f"
+bsize,"f"
+ask,"f"
+asize,"f"
+dailychange,"f"
+dailychangeperc,"f"
+lastprice,"f"
+vol,"f"
+high,"f"
+low,"f"
