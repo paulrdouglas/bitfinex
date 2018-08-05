@@ -79,7 +79,7 @@ init:{
 // load extra files
 \l api.q 
 \l lastvaluecache.q
-
+\l btfeod.q
 
 \
 To do:
