@@ -4,10 +4,10 @@
 system"p 7800"
 
 // assign args from setting script
-btfxhome:@[value;`btfxhome;"."];
+btfxhome:@[value;`btfxhome;"../"];
 url:@[value;`url;"https://api.bitfinex.com/v2/"];
 urlv1:@[value;`urlv1;"https://api.bitfinex.com/v1/"];
-quotecsv:@[value;`quotecsv;btfxhome,"/quotetypes.csv"];
+quotecsv:@[value;`quotecsv;btfxhome,"/config/quotetypes.csv"];
 timer:@[value;`timer;5000];
 insts:@[value;`insts;`xrpusd`btcusd`ethusd`trxusd`ltcusd];
 
@@ -16,7 +16,10 @@ loadtypes:{("SC";enlist",")0:hsym`$x};
 
 qtypes:loadtypes[quotecsv];
 
-createschemas:{`lvcquote set `quote set flip qtypes[`col]!qtypes[`typ]$count[qtypes]#()};
+createschemas:{
+	`quote set flip qtypes[`col]!qtypes[`typ]$count[qtypes]#();
+	`lvcquote set `sym xkey flip qtypes[`col]!qtypes[`typ]$count[qtypes]#()
+	};
 
 addsym:{[sym] enlist[`sym]!enlist sym};
 
@@ -41,6 +44,7 @@ gettrade:{[syms]
 upd:{[t;x]
 	t insert x;
 	lvc[t;x];
+	}
 
 iserror:{$["error"~x 0;1;0]};
 
