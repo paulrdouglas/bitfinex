@@ -3,11 +3,12 @@
 \d .cron
 
 id:0
-events:([id:`int$()] cmd:();start:`timestamp$();interval:`timestamp$();lastrun:`timestamp())
+events:([id:`int$()] cmd:();start:`timestamp$();interval:`time$();lastrun:`timestamp$())
 
-add:{[cmd;start;end]
+add:{[cmd;start;interval]
 	.log.info"Adding cronjob";
-	`events upsert (id;cmd;start;end);
+	`.cron.events upsert (id;cmd;start;interval;.z.P);
+	.cron.id+:1;
 	}
 
 remove:{
@@ -15,12 +16,16 @@ remove:{
 	delete from `events where id=x;
 	}
 
-
-//TODO: Iterate over events table
 checktimer:{
-	if[x[`interval]>.z.P-x`lastrun;
+	if[x[`interval]<.z.P-x`lastrun;
 		value x`cmd;
-		update lastrun:.z.P from `events;
+		update lastrun:.z.P from `.cron.events;
 		];
 	}
 
+\l ../config/cronevents.q
+
+.z.ts:{.cron.checktimer each .cron.events}
+\t 200
+
+\d .

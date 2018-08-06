@@ -63,14 +63,8 @@ checkduplicate:{
 	:{[x;y;q]$[not all(1_y)=value q y 0;x upsert .z.p,y;x]}[;;q]/[0#quote;flip r];
  };
 
-.z.ts:{getquote[insts]};
-
 qtypes:loadtypes[quotecsv];
 createschemas[];
-
-init:{
-	system"t 5000";
- };
 
 / There can be errors with .Q.hg first time
 / Run once to stop this
@@ -80,7 +74,7 @@ init:{
 \l api.q 
 \l lastvaluecache.q
 \l btfeod.q
-
+\l timer.q
 \
 To do:
 #add type cast for trade table
